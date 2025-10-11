@@ -17,11 +17,13 @@ document.getElementById("file-input").addEventListener("change", (event) => {
 
 async function predict() {
   const image = document.getElementById("preview");
+  console.log("in predict function");
   if (!image.src) {
     alert("Please upload an image first.");
     return;
+    console.log("image not found");
   }
-
+  console.log("image found");
   // Adjust input size to match your model (e.g., 128x128)
   const tensor = tf.browser.fromPixels(image)
     .resizeNearestNeighbor([128, 128])
@@ -31,10 +33,17 @@ async function predict() {
   const prediction = await model.predict(tensor);
   const classIndex = prediction.argMax(-1).dataSync()[0];
 
+  console.log("prediction = ", prediction );
+  console.log("classIndex = ", classIndex );
+
   // Replace these with your actual class names
   const classNames = ["Stage 1", "Stage 2", "Stage 3", "Stage 4", "Stage 5"];
 
+
   document.getElementById("result").innerText = 
-    `Predicted Class: ${classNames[classIndex] || classIndex}`;
+    `Predicted Class: ${classNames[classIndex] || classIndex}`;   
+
+  console.log("result = ", result );
 }
+
 
